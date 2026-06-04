@@ -6,7 +6,6 @@ load: POSTWORLD
 folia-supported: true
 website: 'https://brewery.lumamc.net/'
 authors: [Jsinco, Mitality, Nadwey, Szarkans, Vutka1, Thorinwasher, Tisawesomeness]
-libraries: ['org.jetbrains.kotlin:kotlin-stdlib:2.0.21']
 softdepend:
   - LWC
   - LogBlock
@@ -166,6 +165,9 @@ permissions:
     description: Will despite config-setting not be kicked on overdrink
   brewery.bypass.teleport:
     description: Will despite config-setting not be teleported on login
+  brewery.bypass.chatdistort:
+    description: Prevents chat messages from being distorted by drunkenness
+    default: false
 
 # -- Modifiers --
 

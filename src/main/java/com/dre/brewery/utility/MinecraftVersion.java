@@ -25,6 +25,10 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Enum for major Minecraft versions where Brewery needs
  * to handle things differently.
@@ -51,12 +55,16 @@ public enum MinecraftVersion {
     V1_20_4("1.20.4", "1.20.3"), // 1.20.4 & 1.20.3 are one and the same
     V1_21("1.21", "1.20.5", "1.20.6"), // 1.20.5, 1.20.6, & 1.21 are being used the same way in BreweryX.
     V1_21_4("1.21.4"), // min version for setItemModel
+    V1_21_5("1.21.5"), // Int CustomModelData is deprecated since version 1.21.5
     V1_21_10("1.21.10", "1.21.9"), // 1.21.10 & 1.21.9 are one and the same
     V1_21_11("1.21.11"),
+    V26_1("26.1"),
     UNKNOWN("Unknown");
 
+    private static final Pattern VERSION_PATTERN = Pattern.compile("^([0-9]+)\\.([0-9]+)(?:\\.([0-9]+))?");
 
-    private @Getter static final boolean isFolia = MinecraftVersion.checkFolia();
+    private @Getter static final boolean isFolia = ClassUtil.exists("io.papermc.paper.threadedregions.RegionizedServer");
+    private @Getter static final boolean isCanvas = ClassUtil.exists("io.canvasmc.canvas.Config"); // Popular Folia fork
     private @Getter static final boolean useNBT = NBTUtil.initNbt();
 
     private final String[] versions;
@@ -91,12 +99,14 @@ public enum MinecraftVersion {
     public static MinecraftVersion getIt() {
         String rawVersion = Bukkit.getVersion();
         String rawVersionParsed = rawVersion.substring(rawVersion.indexOf("(MC: ") + 5, rawVersion.indexOf(")"));
-        String[] versionSplit = rawVersionParsed.split("\\.");
 
-        Preconditions.checkState(versionSplit.length == 3 || versionSplit.length == 2, "Unexpected Minecraft version format: " + rawVersionParsed);
+        Matcher matcher = VERSION_PATTERN.matcher(rawVersionParsed);
+        if (!matcher.find()) {
+            throw new IllegalStateException("Could not parse Minecraft version from: " + rawVersion);
+        }
+        Preconditions.checkState(matcher.groupCount() == 3 || matcher.groupCount() == 2, "Unexpected Minecraft version format: " + rawVersionParsed);
 
-
-        return get(versionSplit[0], versionSplit[1], versionSplit[2]);
+        return get(matcher.group(1), matcher.group(2), matcher.group(3));
     }
 
     public boolean isOrLater(MinecraftVersion version) {
@@ -109,14 +119,5 @@ public enum MinecraftVersion {
 
     public String getVersion() {
         return versions[0];
-    }
-
-    private static boolean checkFolia() {
-        try {
-            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            return true;
-        } catch (ClassNotFoundException ignored) {
-            return false;
-        }
     }
 }

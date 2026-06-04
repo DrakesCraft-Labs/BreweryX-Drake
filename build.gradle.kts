@@ -30,16 +30,19 @@ import java.nio.charset.Charset
 plugins {
     id("java")
     id("maven-publish")
-    id("com.gradleup.shadow") version "8.3.5"
-    id("io.papermc.hangar-publish-plugin") version "0.1.2"
-    id("com.modrinth.minotaur") version "2.8.7"
-    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.papermc.hangar-publish-plugin") version "0.1.4"
+    id("com.modrinth.minotaur") version "2.9.0"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
     id("io.github.apdevteam.github-packages") version "1.2.2"
+    id("org.ajoberstar.grgit") version ("5.3.3")
 }
 
 group = "com.dre.brewery"
-version = "3.6.3"
+version = "3.7.0"
+
 val langVersion: Int = 21
+val runTaskJavaVersion: Int = 25
 val encoding: String = "UTF-8"
 
 repositories {
@@ -69,6 +72,10 @@ dependencies {
     // Paper Lib, performance improvements on Paper-based servers and async teleporting on Folia
     implementation("io.papermc:paperlib:1.0.8")
 
+    // Database source implementation
+    implementation("com.zaxxer:HikariCP:7.0.2") {
+        exclude("org.slf4j", "slf4j-api")
+    }
     // Implemented manually mainly due to older server versions implementing versions of GSON
     // which don't support records.
     implementation("com.google.code.gson:gson:2.11.0")
@@ -143,7 +150,7 @@ tasks {
         outputs.upToDateWhen { false }
         filter<ReplaceTokens>(
             mapOf(
-                "tokens" to mapOf("version" to "${project.version};${getGitBranch()}"),
+                "tokens" to mapOf("version" to "${project.version};${grgit.branch.current().name}"),
                 "beginToken" to "\${",
                 "endToken" to "}"
             )
@@ -159,6 +166,7 @@ tasks {
         relocate("com.mongodb", "$pack.mongodb")
         relocate("org.bson", "$pack.bson")
         relocate("io.papermc.lib", "$pack.paperlib")
+        relocate("com.zaxxer.hikari", "$pack.hikari")
 
         archiveClassifier.set("")
     }
@@ -182,7 +190,7 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.20.4")
+        minecraftVersion("26.1.2")
     }
 
     register("publishToDiscord") {
@@ -197,7 +205,7 @@ tasks {
 tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
     javaLauncher = javaToolchains.launcherFor {
         vendor = JvmVendorSpec.ADOPTIUM
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(runTaskJavaVersion)
     }
 }
 
@@ -284,19 +292,6 @@ hangarPublish {
             }
         }
     }
-}
-
-
-
-fun getGitBranch(): String = ByteArrayOutputStream().use { stream ->
-    var branch = "none"
-    // TODO: can some nice person replace this deprecated method please? :)
-    project.exec {
-        commandLine = listOf("git", "rev-parse", "--abbrev-ref", "HEAD")
-        standardOutput = stream
-    }
-    if (stream.size() > 0) branch = stream.toString(Charset.defaultCharset().name()).trim()
-    return branch
 }
 
 fun readChangeLog(): String {
