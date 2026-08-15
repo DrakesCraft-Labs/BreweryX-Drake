@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/DrakesCraft-Labs/BreweryX-Drake/master/banner.svg" width="100%" alt="BREWERYX animated banner" />
+</p>
+
 # BreweryX ![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue) [![Releases](https://img.shields.io/github/v/release/BreweryTeam/BreweryX)](https://github.com/BreweryTeam/BreweryX/releases/latest)
 
 #### BreweryX is an actively maintained fork of Brewery which includes many new features and gives support to the inactive plugin. Find more info below.
@@ -65,3 +69,4 @@ Check [the documentation](https://breweryx.breweryteam.dev/docs/for-developers/p
 ### License
 
 This Project is licensed under GPLv3
+
