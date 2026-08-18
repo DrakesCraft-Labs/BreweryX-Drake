@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DrakesCraft-Labs/BreweryX-Drake/master/banner.svg" width="100%" alt="BREWERYX animated banner" />
+  <img src="https://raw.githubusercontent.com/DrakesCraft-Labs/BreweryX-Drake/main/banner.svg" width="100%" alt="BREWERYX animated banner" />
 </p>
 
 # BreweryX ![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue) [![Releases](https://img.shields.io/github/v/release/BreweryTeam/BreweryX)](https://github.com/BreweryTeam/BreweryX/releases/latest)
