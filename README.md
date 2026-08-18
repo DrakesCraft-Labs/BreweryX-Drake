@@ -4,6 +4,16 @@
 
 # BreweryX ![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue) [![Releases](https://img.shields.io/github/v/release/BreweryTeam/BreweryX)](https://github.com/BreweryTeam/BreweryX/releases/latest)
 
+> ### 🏰 ¡Únete a la Comunidad Oficial de DrakesCraft!
+> 
+> * 🎮 **IP del Servidor**: `play.drakescraft.net` *(Java 1.21.11 & Bedrock)*
+> * 💬 **Discord Oficial**: [discord.gg/drakescraft](https://discord.gg/rR7FbfCt9Y)
+> * 🌐 **Web & Guía**: [drakescraft.net](https://drakescraft.net) — 🛒 **Tienda**: [tienda.drakescraft.net](https://tienda.drakescraft.net)
+> 
+> *¡Juega con este addon y más de 80 expansiones optimizadas en vivo en nuestra network de supervivencia técnica!*
+
+---
+
 #### BreweryX is an actively maintained fork of Brewery which includes many new features and gives support to the inactive plugin. Find more info below.
 
 ### [Wiki & Docs](https://brewery.lumamc.net) **|** [Discord Support](https://discord.gg/aV5Am7uxWr) **|** [Download Brewery**X**](https://www.spigotmc.org/resources/breweryx.114777/)
